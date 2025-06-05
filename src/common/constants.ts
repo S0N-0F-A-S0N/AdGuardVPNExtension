@@ -16,6 +16,13 @@ export const SETTINGS_IDS = {
     CUSTOM_DNS_SERVERS: 'custom.dns.servers',
     QUICK_CONNECT: 'quick.connect',
     DEBUG_MODE_ENABLED: 'debug.mode.enabled',
+    PROXY_HOST: 'proxy.host',
+    PROXY_PORT: 'proxy.port',
+    PROXY_SCHEME: 'proxy.scheme',
+    WIREGUARD_HOST: 'wireguard.host',
+    WIREGUARD_PORT: 'wireguard.port',
+    WIREGUARD_PUBLIC_KEY: 'wireguard.public.key',
+    WIREGUARD_PRIVATE_KEY: 'wireguard.private.key',
 };
 
 export const enum AppearanceTheme {

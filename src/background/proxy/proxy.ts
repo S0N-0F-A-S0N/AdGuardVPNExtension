@@ -5,9 +5,9 @@
 
 import { log } from '../../common/logger';
 import { browserApi } from '../browserApi';
-import { notifier } from '../../common/notifier';
 import { NON_ROUTABLE_CIDR_NETS } from '../routability/constants';
 import { fallbackApi } from '../api/fallbackApi';
+import { notifier } from '../../common/notifier';
 import {
     type EndpointInterface,
     type LocationInterface,
@@ -22,6 +22,7 @@ import { stateStorage } from '../stateStorage';
 
 import { DEFAULT_EXCLUSIONS, LEVELS_OF_CONTROL } from './proxyConsts';
 import { proxyApi } from './abstractProxyApi';
+import { proxyUserSettings } from './proxyUserSettings';
 
 const CURRENT_ENDPOINT_KEY = 'proxyCurrentEndpoint';
 
@@ -53,6 +54,7 @@ class ExtensionProxy implements ExtensionProxyInterface {
     state: ProxyState;
 
     async init(): Promise<void> {
+        await proxyUserSettings.init();
         this.state = stateStorage.getItem(StorageKey.ProxyState);
 
         if (!this.currentConfig) {
@@ -201,9 +203,11 @@ class ExtensionProxy implements ExtensionProxyInterface {
                 ...await fallbackApi.getApiUrlsExclusions(),
             ],
             nonRoutableCidrNets: NON_ROUTABLE_CIDR_NETS,
-            host: this.currentHost || PROXY_DEFAULTS.currentHost,
-            port: PROXY_CONFIG_PORT,
-            scheme: PROXY_CONFIG_SCHEME,
+            host: this.currentHost
+                || proxyUserSettings.getProxyHost()
+                || PROXY_DEFAULTS.currentHost,
+            port: proxyUserSettings.getProxyPort() || PROXY_CONFIG_PORT,
+            scheme: proxyUserSettings.getProxyScheme() || PROXY_CONFIG_SCHEME,
             inverted: this.inverted || false,
             credentials: this.credentials,
         };

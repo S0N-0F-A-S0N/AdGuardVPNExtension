@@ -20,6 +20,10 @@ const buildSettings = (proxyEnabled: boolean): SettingsInterface => {
         // @ts-ignore - mock async method with jest.fn
         disableProxy: jest.fn(() => {
         }),
+        // proxy configuration getters
+        getProxyHost: () => '',
+        getProxyPort: () => 443,
+        getProxyScheme: () => 'https',
     };
 };
 

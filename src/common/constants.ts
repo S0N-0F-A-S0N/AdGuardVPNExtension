@@ -16,6 +16,9 @@ export const SETTINGS_IDS = {
     CUSTOM_DNS_SERVERS: 'custom.dns.servers',
     QUICK_CONNECT: 'quick.connect',
     DEBUG_MODE_ENABLED: 'debug.mode.enabled',
+    PROXY_HOST: 'proxy.host',
+    PROXY_PORT: 'proxy.port',
+    PROXY_SCHEME: 'proxy.scheme',
 };
 
 export const enum AppearanceTheme {

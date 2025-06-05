@@ -23,7 +23,7 @@ export interface SettingsInterface {
     disableProxy(force?: boolean): Promise<void>;
     enableProxy(force?: boolean): Promise<void>;
     isProxyEnabled(): boolean;
-    SETTINGS_IDS: { [key: string]: boolean | string };
+    SETTINGS_IDS: { [key: string]: boolean | string | number };
     applySettings(): void;
     getExclusions (): PersistedExclusions;
     setExclusions(exclusions: PersistedExclusions): void;
@@ -35,6 +35,9 @@ export interface SettingsInterface {
     getQuickConnectSetting(): QuickConnectSetting;
     getAppearanceTheme(): AppearanceTheme;
     isHelpUsImproveEnabled(): boolean;
+    getProxyHost(): string;
+    getProxyPort(): number;
+    getProxyScheme(): string;
 }
 
 const DEFAULT_SETTINGS = {
@@ -51,6 +54,9 @@ const DEFAULT_SETTINGS = {
     [SETTINGS_IDS.CUSTOM_DNS_SERVERS]: [],
     [SETTINGS_IDS.QUICK_CONNECT]: QUICK_CONNECT_SETTING_DEFAULT,
     [SETTINGS_IDS.DEBUG_MODE_ENABLED]: false,
+    [SETTINGS_IDS.PROXY_HOST]: '',
+    [SETTINGS_IDS.PROXY_PORT]: 443,
+    [SETTINGS_IDS.PROXY_SCHEME]: 'https',
 };
 
 const settingsService = new SettingsService(browserApi.storage, DEFAULT_SETTINGS);
@@ -189,6 +195,18 @@ const isHelpUsImproveEnabled = (): boolean => {
     return settingsService.getSetting(SETTINGS_IDS.HELP_US_IMPROVE);
 };
 
+const getProxyHost = (): string => {
+    return settingsService.getSetting(SETTINGS_IDS.PROXY_HOST);
+};
+
+const getProxyPort = (): number => {
+    return settingsService.getSetting(SETTINGS_IDS.PROXY_PORT);
+};
+
+const getProxyScheme = (): string => {
+    return settingsService.getSetting(SETTINGS_IDS.PROXY_SCHEME);
+};
+
 const init = async (): Promise<void> => {
     await settingsService.init();
     dns.init();
@@ -214,4 +232,7 @@ export const settings: SettingsInterface = {
     isDebugModeEnabled,
     getAppearanceTheme,
     isHelpUsImproveEnabled,
+    getProxyHost,
+    getProxyPort,
+    getProxyScheme,
 };
